@@ -6,6 +6,11 @@ public class NumberHandler : MonoBehaviour
 {
     [SerializeField] private Color textColorOff, textColorOn;
 
+    public void SetComments()
+    {
+        Tile.SetComment();
+    }
+
     public void TurnOffNumber(int number)
     {
         Transform button = transform.GetChild(number);
