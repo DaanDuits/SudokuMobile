@@ -14,7 +14,6 @@ public class SudokuLogic : MonoBehaviour
 
     private void Start()
     {
-
         for (int i = 1; i <= _size; i++)
         {
             if (isNumberSolved(i))

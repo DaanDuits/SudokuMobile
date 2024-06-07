@@ -6,7 +6,7 @@ public class TileComments : MonoBehaviour
 {
     [SerializeField] private Transform comments;
 
-    private void Start()
+    private void Awake()
     {
         ClearComments();
     }

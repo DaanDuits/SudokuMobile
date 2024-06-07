@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,7 +41,7 @@ public class BoardGeneration : MonoBehaviour
             {
                 for (int j = 0; j < _size; j++)
                 {
-                    sudoku[i, j] = new Tile(board.GetChild(j * _size + i).GetChild(0).GetComponent<TMP_Text>(), data.Sudoku[i, j].Value);
+                    sudoku[i, j] = new Tile(board.GetChild(j * _size + i).GetChild(0).GetComponent<TMP_Text>(), data.Sudoku[i, j].ActiveComments, data.Sudoku[i, j].Value, true);
                     if (data.Sudoku[i, j].IsLocked) sudoku[i, j].Lock(lockedColor);
                     else sudoku[i, j].Unlock(unlockedColor);
                 }
@@ -90,7 +91,7 @@ public class BoardGeneration : MonoBehaviour
         {
             for (int j = 0; j < _size; j++)
             {
-                sudoku[i, j] = new Tile(board.GetChild(j * _size + i).GetChild(0).GetComponent<TMP_Text>(), 0);
+                sudoku[i, j] = new Tile(board.GetChild(j * _size + i).GetChild(0).GetComponent<TMP_Text>(), new List<int>());
             }
         }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -5,8 +6,11 @@ public class Tile
 {
     private TMP_Text _display;
     private TileComments _comments;
+    public List<int> ActiveComments;
     private int _value;
     private bool _isLocked;
+
+    private bool _loadedValue;
 
     private static bool _comment;
 
@@ -15,11 +19,20 @@ public class Tile
         _comment = !_comment;
     }
 
-    public Tile(TMP_Text display, int value)
+    public Tile(TMP_Text display, List<int> activeComments, int value = 0, bool loadedValue = false)
     {
+        _comment = false;
+        ActiveComments = activeComments;
         _display = display;
         _comments = _display.GetComponent<TileComments>();
+
+        _loadedValue = loadedValue;
         Value = value;
+
+        for (int i = 0; i < ActiveComments.Count; i++)
+        {
+            _comments.ToggleComment(ActiveComments[i]);
+        }
     }
 
     public void Lock(Color32 color)
@@ -38,6 +51,22 @@ public class Tile
         return _isLocked;
     }
 
+    private void AddRemoveComment(int comment)
+    {
+        if (ActiveComments.Contains(comment))
+        {
+            ActiveComments.Remove(comment);
+            return;
+        }
+        ActiveComments.Add(comment);
+    }
+
+    private void ClearComments()
+    {
+        _comments.ClearComments();
+        ActiveComments.Clear();
+    }
+
     public int Value
     {
         get { return _value; }
@@ -45,8 +74,27 @@ public class Tile
         {
             if (_comment)
             {
+                if (value == 0 && _value == 0)
+                {
+                    ClearComments();
+                }
+
                 _comments.ToggleComment(value);
+                AddRemoveComment(value);
                 return;
+            }
+
+            if (!_loadedValue)
+            {
+                _comments.ClearComments();
+            }
+
+            if (value == 0)
+            {
+                for (int i = 0; i < ActiveComments.Count; i++)
+                {
+                    _comments.ToggleComment(ActiveComments[i]);
+                }
             }
 
 
@@ -58,7 +106,8 @@ public class Tile
             _value = value;
 
             _display.text = value == 0 ? "" : value.ToString();
-            _comments.ClearComments();
+
+            _loadedValue = false;
         }
     }
 }
