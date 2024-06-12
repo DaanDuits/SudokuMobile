@@ -12,6 +12,9 @@ public class Tile
 
     private bool _loadedValue;
 
+    private static Color _defaultTextColor;
+    private static bool _hasColor;
+
     private static bool _comment;
 
     public static void SetComment()
@@ -24,6 +27,11 @@ public class Tile
         _comment = false;
         ActiveComments = activeComments;
         _display = display;
+        if (!_hasColor)
+        {
+            _defaultTextColor = display.color;
+            _hasColor = true;
+        }    
         _comments = _display.GetComponent<TileComments>();
 
         _loadedValue = loadedValue;
@@ -37,12 +45,12 @@ public class Tile
 
     public void Lock(Color32 color)
     {
-        _display.color = color;
+        _display.color = color * _defaultTextColor;
         _isLocked = true;
     }
     public void Unlock(Color32 color)
     {
-        _display.color = color;
+        _display.color = color * _defaultTextColor;
         _isLocked = false;
     }
 
@@ -72,13 +80,15 @@ public class Tile
         get { return _value; }
         set
         {
+
+
             if (_comment)
             {
                 if (value == 0 && _value == 0)
                 {
                     ClearComments();
+                    return;
                 }
-
                 _comments.ToggleComment(value);
                 AddRemoveComment(value);
                 return;
@@ -96,7 +106,10 @@ public class Tile
                     _comments.ToggleComment(ActiveComments[i]);
                 }
             }
-
+            if (value == 0 && _value == 0)
+            {
+                ClearComments();
+            }
 
             bool isOutOfRange = value < 0 || value > 9;
             if (_isLocked || isOutOfRange)

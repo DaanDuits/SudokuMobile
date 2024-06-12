@@ -9,7 +9,7 @@ public class HighlightBehaviour : MonoBehaviour
     private const int _size = 9;
     private List<Transform> highlighted = new List<Transform>();
 
-    [SerializeField] private Color32 highlightedColor = Color.white;
+    [SerializeField] private float highlightedAlpha = 0.3f;
     private Color32 transparent = new Color32(255, 255, 255, 0);
 
     public void ClearHiglighted()
@@ -17,7 +17,7 @@ public class HighlightBehaviour : MonoBehaviour
         for (int i = 0; i < highlighted.Count; i++)
         {
             var colors = highlighted[i].GetComponent<Toggle>().colors;
-            colors.normalColor = transparent;
+            colors.normalColor *= transparent;
             highlighted[i].GetComponent<Toggle>().colors = colors;
         }
         highlighted.Clear();
@@ -48,7 +48,7 @@ public class HighlightBehaviour : MonoBehaviour
                 {
                     highlighted.Add(generation.board.GetChild(j * _size + i));
                     var colors = generation.board.GetChild(j * _size + i).GetComponent<Toggle>().colors;
-                    colors.normalColor = highlightedColor;
+                    colors.normalColor += new Color(0, 0, 0, highlightedAlpha);
                     generation.board.GetChild(j * _size + i).GetComponent<Toggle>().colors = colors;
                 }
             }

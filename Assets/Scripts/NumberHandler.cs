@@ -1,14 +1,31 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class NumberHandler : MonoBehaviour
 {
     [SerializeField] private Color textColorOff, textColorOn;
+    [SerializeField] private Image commentButton;
+    [SerializeField] private Sprite commentingOn, commentingOff;
+
+    private Color _defaultTextColor;
+
+    private bool _comment;
+
+    private void Start()
+    {
+        Transform button = transform.GetChild(0);
+        button.GetComponent<Button>().interactable = false;
+        TMP_Text text = button.GetChild(0).GetComponent<TMP_Text>();
+        _defaultTextColor = text.color;
+    }
 
     public void SetComments()
     {
         Tile.SetComment();
+        _comment = !_comment;
+        commentButton.sprite = _comment ? commentingOn : commentingOff;
     }
 
     public void TurnOffNumber(int number)
@@ -16,7 +33,8 @@ public class NumberHandler : MonoBehaviour
         Transform button = transform.GetChild(number);
         button.GetComponent<Button>().interactable = false;
         TMP_Text text = button.GetChild(0).GetComponent<TMP_Text>();
-        text.color = textColorOff;
+        _defaultTextColor = text.color;
+        text.color = textColorOff * _defaultTextColor;
     }
 
     public bool IsInteractable(int number)
@@ -29,7 +47,7 @@ public class NumberHandler : MonoBehaviour
         Transform button = transform.GetChild(number);
         button.GetComponent<Button>().interactable = true;
         TMP_Text text = button.GetChild(0).GetComponent<TMP_Text>();
-        text.color = textColorOn;
+        text.color = textColorOn * _defaultTextColor;
     }
 
     public void ResetNumbers()
@@ -39,7 +57,7 @@ public class NumberHandler : MonoBehaviour
             Transform button = transform.GetChild(i);
             button.GetComponent<Button>().interactable = true;
             TMP_Text text = button.GetChild(0).GetComponent<TMP_Text>();
-            text.color = textColorOn;
+            text.color = textColorOn * _defaultTextColor;
         }
     }
 }
