@@ -13,14 +13,6 @@ public class NumberHandler : MonoBehaviour
 
     private bool _comment;
 
-    private void Start()
-    {
-        Transform button = transform.GetChild(0);
-        button.GetComponent<Button>().interactable = false;
-        TMP_Text text = button.GetChild(0).GetComponent<TMP_Text>();
-        _defaultTextColor = text.color;
-    }
-
     public void SetComments()
     {
         Tile.SetComment();

@@ -29,6 +29,7 @@ public class BoardGeneration : MonoBehaviour
 
     private void Start()
     {
+        Tile._hasColor = false;
         persistentSudoku = FindAnyObjectByType<PersistentSudoku>();
         startupBehaviour = FindAnyObjectByType<StartupBehaviour>();
         if (persistentSudoku.CanLoad && startupBehaviour.canContinue())

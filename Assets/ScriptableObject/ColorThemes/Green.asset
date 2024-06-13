@@ -12,3 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee20b6dbbb622cc42847876a765a05df, type: 3}
   m_Name: Green
   m_EditorClassIdentifier: 
+  imageColor: {r: 0.21028832, g: 0.6226415, b: 0.21240291, a: 1}
+  backgroundColor: {r: 0, g: 0.37254903, b: 0.02014467, a: 1}
+  textColor: {r: 0.2240298, g: 0.7660377, b: 0.35581216, a: 1}
+  buttonSelected: {r: 0, g: 0.8490566, b: 0.047738057, a: 0.78431374}
+  tileHighlighted: {r: 0.23781411, g: 0.9924528, b: 0.27954528, a: 0.78431374}
+  tileSelected: {r: 0, g: 0.7056604, b: 0.03902268, a: 0.78431374}

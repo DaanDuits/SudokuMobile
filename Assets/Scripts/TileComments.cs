@@ -6,14 +6,10 @@ public class TileComments : MonoBehaviour
 {
     [SerializeField] private Transform comments;
 
-    private void Awake()
-    {
-        ClearComments();
-    }
-
     public void ToggleComment(int value)
     {
-        comments.GetChild(value - 1).gameObject.SetActive(!comments.GetChild(value - 1).gameObject.activeSelf);
+        GameObject note = comments.GetChild(value - 1).gameObject;
+        note.SetActive(!note.activeSelf);
     }
 
     public void ClearComments()

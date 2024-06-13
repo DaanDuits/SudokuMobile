@@ -13,7 +13,7 @@ public class Tile
     private bool _loadedValue;
 
     private static Color _defaultTextColor;
-    private static bool _hasColor;
+    public static bool _hasColor;
 
     private static bool _comment;
 
@@ -80,13 +80,20 @@ public class Tile
         get { return _value; }
         set
         {
-
-
             if (_comment)
             {
+                if (_value > 0)
+                {
+                    return;
+                }
                 if (value == 0 && _value == 0)
                 {
                     ClearComments();
+                    return;
+                }
+                else if (value == 0)
+                {
+                    SetValue(value);
                     return;
                 }
                 _comments.ToggleComment(value);
@@ -94,33 +101,38 @@ public class Tile
                 return;
             }
 
-            if (!_loadedValue)
-            {
-                _comments.ClearComments();
-            }
-
-            if (value == 0)
-            {
-                for (int i = 0; i < ActiveComments.Count; i++)
-                {
-                    _comments.ToggleComment(ActiveComments[i]);
-                }
-            }
-            if (value == 0 && _value == 0)
-            {
-                ClearComments();
-            }
-
-            bool isOutOfRange = value < 0 || value > 9;
-            if (_isLocked || isOutOfRange)
-            {
-                return;
-            }
-            _value = value;
-
-            _display.text = value == 0 ? "" : value.ToString();
-
-            _loadedValue = false;
+            SetValue(value);
         }
+    }
+
+    private void SetValue(int value)
+    {
+        if (!_loadedValue)
+        {
+            _comments.ClearComments();
+        }
+
+        if (value == 0)
+        {
+            for (int i = 0; i < ActiveComments.Count; i++)
+            {
+                _comments.ToggleComment(ActiveComments[i]);
+            }
+        }
+        if (value == 0 && _value == 0)
+        {
+            ClearComments();
+        }
+
+        bool isOutOfRange = value < 0 || value > 9;
+        if (_isLocked || isOutOfRange)
+        {
+            return;
+        }
+
+        _value = value;
+        _display.text = value == 0 ? "" : value.ToString();
+
+        _loadedValue = false;
     }
 }

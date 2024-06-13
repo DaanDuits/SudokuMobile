@@ -6,14 +6,14 @@ using UnityEngine;
 public class ColorThemePreset : ScriptableObject
 {
     [Header("Image")]
-    public Color imageColor;
+    public Color imageColor = Color.black;
     [Header("Background")]
-    public Color backgroundColor;
+    public Color backgroundColor = Color.black;
     [Header("Text")]
-    public Color textColor;
+    public Color textColor = Color.black;
     [Header("Button")]
-    public Color buttonSelected;
+    public Color buttonSelected = Color.black;
     [Header("Tile")]
-    public Color tileHighlighted;
-    public Color tileSelected;
+    public Color tileHighlighted = Color.black;
+    public Color tileSelected = Color.black;
 }

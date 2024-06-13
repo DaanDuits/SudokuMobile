@@ -8,9 +8,8 @@ public class ColorThemeHandler : MonoBehaviour
     [SerializeField] private ColorThemeImage[] images;
     [SerializeField] private ColorThemeButton[] buttons;
     [SerializeField] private ColorThemeTile[] tiles;
-    [SerializeField] private TMP_Text[] text;
+    [SerializeField] private ColorThemeText[] text;
     [SerializeField] private ColorThemePreset defaultPreset;
-    [SerializeField] private ColorThemePreset test;
  
     public ColorThemePreset Preset
     {
@@ -18,31 +17,34 @@ public class ColorThemeHandler : MonoBehaviour
         {
             _colorTheme = new ColorTheme(value);
             ResetColors();
+            SetColors();
         }
     }
     private ColorTheme _colorTheme;
-    private void Start()
-    {
-        Preset = test;
-    }
-
 
     private void OnLevelWasLoaded(int level)
     {
         ResetColors();
+        SetColors();
+    }
+
+    private void GetObjects()
+    {
+
+        images = FindObjectsByType<ColorThemeImage>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        buttons = FindObjectsByType<ColorThemeButton>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        tiles = FindObjectsByType<ColorThemeTile>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        text = FindObjectsByType<ColorThemeText>(FindObjectsInactive.Include, FindObjectsSortMode.None);
     }
 
     private void ResetColors()
     {
-        images = FindObjectsByType<ColorThemeImage>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        buttons = FindObjectsByType<ColorThemeButton>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        tiles = FindObjectsByType<ColorThemeTile>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        text = FindObjectsByType<TMP_Text>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        GetObjects();
 
         Camera.main.backgroundColor = defaultPreset.backgroundColor;
         for (int i = 0; i < images.Length; i++)
         {
-            images[i].Image.color *= defaultPreset.imageColor;
+            images[i].Image.color = defaultPreset.imageColor * images[i].original;
         }
         for (int i = 0; i < buttons.Length; i++)
         {
@@ -53,26 +55,22 @@ public class ColorThemeHandler : MonoBehaviour
         for (int i = 0; i < tiles.Length; i++)
         {
             ColorBlock tileBlock = tiles[i].Tile.colors;
-            tileBlock.selectedColor = defaultPreset.tileHighlighted;
-            tileBlock.pressedColor = defaultPreset.tileHighlighted;
-            tileBlock.normalColor = defaultPreset.tileSelected;
+            tileBlock.selectedColor *= defaultPreset.tileHighlighted;
+            tileBlock.pressedColor *= defaultPreset.tileHighlighted;
+            tileBlock.normalColor *= defaultPreset.tileSelected;
             tiles[i].Tile.colors = tileBlock;
         }
         for (int i = 0; i < text.Length; i++)
         {
-            text[i].color = defaultPreset.textColor;
+            text[i].Text.color = defaultPreset.textColor * text[i].original;
         }
-        SetColors();
     }
 
     private void SetColors()
     {
-        images = FindObjectsByType<ColorThemeImage>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        buttons = FindObjectsByType<ColorThemeButton>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        tiles = FindObjectsByType<ColorThemeTile>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        text = FindObjectsByType<TMP_Text>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        GetObjects();
 
-        Camera.main.backgroundColor *= _colorTheme.backgroundColor;
+        Camera.main.backgroundColor = _colorTheme.backgroundColor;
         for (int i = 0; i < images.Length; i++)
         {
             images[i].Image.color *= _colorTheme.imageColor;
@@ -93,7 +91,7 @@ public class ColorThemeHandler : MonoBehaviour
         }
         for (int i = 0; i < text.Length; i++)
         {
-            text[i].color *= _colorTheme.textColor;
+            text[i].Text.color *= _colorTheme.textColor;
         }
     }
 }
