@@ -30,7 +30,6 @@ public class ColorThemeHandler : MonoBehaviour
 
     private void GetObjects()
     {
-
         images = FindObjectsByType<ColorThemeImage>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         buttons = FindObjectsByType<ColorThemeButton>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         tiles = FindObjectsByType<ColorThemeTile>(FindObjectsInactive.Include, FindObjectsSortMode.None);

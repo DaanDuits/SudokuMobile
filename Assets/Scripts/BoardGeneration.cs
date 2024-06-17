@@ -32,7 +32,7 @@ public class BoardGeneration : MonoBehaviour
         Tile._hasColor = false;
         persistentSudoku = FindAnyObjectByType<PersistentSudoku>();
         startupBehaviour = FindAnyObjectByType<StartupBehaviour>();
-        if (persistentSudoku.CanLoad && startupBehaviour.canContinue())
+        if (persistentSudoku.CanLoad && startupBehaviour.ShouldContinue())
         {
             SudokuData data = persistentSudoku.LoadSudoku();
             _difficultyPercentage = data.DifficultyPercentage;

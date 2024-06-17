@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class SudokuLogic : MonoBehaviour
 {
+    [SerializeField] private UnityEvent onWin;
     [SerializeField] private MessageData winMessage;
     [SerializeField] private HighlightBehaviour highlightBehaviour;
     [SerializeField] private BoardGeneration generation;
@@ -38,6 +40,7 @@ public class SudokuLogic : MonoBehaviour
         if (isSudokuSolved())
         {
             MessageCreator.CreateNewMessage(winMessage);
+            onWin.Invoke();
         }
 
         if (isNumberSolved(value)) 

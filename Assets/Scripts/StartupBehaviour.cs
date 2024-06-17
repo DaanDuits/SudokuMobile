@@ -35,7 +35,7 @@ public class StartupBehaviour : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
-    public bool canContinue()
+    public bool ShouldContinue()
     {
         return shouldContinue;
     }
